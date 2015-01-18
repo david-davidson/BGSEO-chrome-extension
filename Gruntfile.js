@@ -3,7 +3,8 @@ module.exports = function(grunt) {
 
   var allJsFiles = [
     "content.js",
-    "background.js"
+    "background.js",
+    "Gruntfile.js"
   ];
 
   require("matchdep").filterDev("grunt-*").forEach(grunt.loadNpmTasks);
@@ -41,11 +42,10 @@ module.exports = function(grunt) {
 
     watch: {
       all: {
-        files: [
-          "content.js",
+        files: allJsFiles.concat([
           "popup.html",
-          "background.js"
-        ],
+          "styles.css"
+        ]),
         tasks: [
           "jshint",
           "jscs",
@@ -53,6 +53,7 @@ module.exports = function(grunt) {
         ]
       }
     }
+  
   });
 
   grunt.registerTask("default", [
