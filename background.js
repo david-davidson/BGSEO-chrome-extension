@@ -15,5 +15,8 @@ chrome.tabs.query({
     nodes: nodesToCount
   }, function(count) {
     document.getElementById("linkCount").innerText = (count.A || defaultResponse);
+    document.getElementById("kloutMeter").value = 57; // Example values for progress meter
+    document.getElementById("rtMeter").value = 85;  
   });
 });
+
