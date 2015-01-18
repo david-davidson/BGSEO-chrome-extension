@@ -56,7 +56,6 @@ chrome.tabs.query({
     _calculateScore = function(elements) {
       var totalScores = 0,
         totalElements = 0,
-        avgScore,
         i;
 
       for (i = 0; i < elements.length; i++) {
