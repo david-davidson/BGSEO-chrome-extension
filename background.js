@@ -1,9 +1,14 @@
-var defaultResponse = "Please reopen once page has loaded",
+var defaultResponse = "0",
   nodesToCount = {
     "A": 0,
     "H1": 0,
-    "BUTTON": 0
-  };
+    "STRONG": 0,
+    "B": 0,
+    "EM": 0,
+    "I": 0,
+    "LI": 0
+  },
+  goal = 10;
 
 document.getElementById("showMoar").onclick = function(e) {
   e.preventDefault();
@@ -15,7 +20,6 @@ document.getElementById("showMoar").onclick = function(e) {
   }
 };
 
-
 chrome.tabs.query({
   active: true,
   currentWindow: true
@@ -24,10 +28,81 @@ chrome.tabs.query({
     from: "BGSEO",
     type: "count",
     nodes: nodesToCount
-  }, function(count) {
-    document.getElementById("linkCount").innerText = (count.A || defaultResponse);
-    document.getElementById("kloutMeter").value = 57; // Example values for progress meter
-    document.getElementById("rtMeter").value = 85;  
+  }, function(counts) {
+
+    /**
+     *****************************
+     * Begin PROPRIETARY ALGORITHM
+     *****************************
+     */
+
+    var bold = counts.STRONG + counts.B,
+      italics = counts.EM + counts.I,
+      links = counts.A,
+      listItems = counts.LI,
+      h1s = counts.H1,
+      _calculateScore,
+      kloutScore,
+      rtScore;
+
+    /**
+     * Accepts an array of objects with `goal` and `value` attributes,
+     * and returns an averaged score out of 100
+     *
+     * @param {Array} elements    All the scores to calculate
+     * @returns {Number}          The averaged score
+     */
+
+    _calculateScore = function(elements) {
+      var totalScores = 0,
+        totalElements = 0,
+        avgScore,
+        i;
+
+      for (i = 0; i < elements.length; i++) {
+        totalScores += (elements[ i ].value > elements[ i ].goal ?
+          100 :
+          (elements[ i ].value / elements[ i ].goal) * 100);
+        totalElements++;
+      }
+      return totalScores / totalElements;
+    };
+
+    kloutScore = _calculateScore([
+      {
+        goal: goal,
+        value: links
+      },
+      {
+        goal: goal,
+        value: listItems
+      }
+    ]);
+
+    rtScore = _calculateScore([
+      {
+        goal: goal,
+        value: bold
+      },
+      {
+        goal: goal,
+        value: italics
+      },
+      {
+        goal: goal,
+        value: h1s
+      }
+    ]);
+
+    // Set BGSEO scores
+    document.getElementById("kloutMeter").value = kloutScore; // Example values for progress meter
+    document.getElementById("rtMeter").value = rtScore;
+
+    // Set element counts
+    document.getElementById("linkCount").innerText = (links || defaultResponse) + "/" + goal;
+    document.getElementById("liCount").innerText = (listItems || defaultResponse) + "/" + goal;
+    document.getElementById("boldCount").innerText = (bold || defaultResponse) + "/" + goal;
+    document.getElementById("italicsCount").innerText = (italics || defaultResponse) + "/" + goal;
+    document.getElementById("h1Count").innerText = (h1s || defaultResponse) + "/" + goal;
   });
 });
-
