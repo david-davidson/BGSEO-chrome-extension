@@ -6,13 +6,17 @@ a, .fakeLink {
 
 body {
 	font-family: "open sans";
-	width: 500px;
+	width: 400px;
 	font-size: 16px;
 }
 
 h1, h2, h3 {
 	font-family: "montserrat";
 	font-weight: 700;
+}
+
+h1 {
+  font-size: 25px;
 }
 
 .progress {
