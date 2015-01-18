@@ -1,32 +1,30 @@
 (function() {
 
   /**
-   * Counts the number of appearances of a given element within the DOM
+   * Counts the number of appearances of elements within the DOM
    *
+   * @param {Object} selectors  A hash of the elements (and their counts) we care about
    * @param {Object} element    The current DOM node
-   * @param {String} type       The type of element we're looking for
-   * @param {Number} count      The number of appearances so far
    */
 
-  var recurse = function(element, type, count) {
-    var matches = count || 0,
-      childMatches = 0;
+  var countInstancesOf = function(selectors, element) {
+    var nodeName = element.nodeName;
 
-    // Return early if it's a match
-    if (element.nodeName === type) {
-      return ++matches;
+    if (selectors.hasOwnProperty(nodeName)) {
+      selectors[ nodeName ]++;
     }
 
-    // Otherwise, count matches among the node's children
     for (var i = 0; i < element.childNodes.length; i++) {
-      childMatches += recurse(element.childNodes[ i ], type, matches);
+      countInstancesOf(selectors, element.childNodes[ i ]);
     }
-    return childMatches;
+
+    return selectors;
   };
 
   chrome.runtime.onMessage.addListener(function(message, sender, callback) {
-    if (message.title === "count") {
-      callback(recurse(document.documentElement, message.element));
+    if (message.from === "BGSEO" && message.type === "count") {
+      var occurences = countInstancesOf(message.nodes, document.documentElement);
+      callback(occurences);
     }
   });
 
