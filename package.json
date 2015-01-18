@@ -1,0 +1,14 @@
+{
+  "name": "gruntConfig",
+  "version": "0.1.0",
+  "author": "David Davidson",
+  "private": true,
+  "devDependencies": {
+    "grunt": "*",
+    "grunt-contrib-jshint": "*",
+    "grunt-contrib-watch": "*",
+    "grunt-htmlhint": "*",
+    "grunt-jscs": "^1.2.0",
+    "matchdep": "*"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "manifest_version": 2,
+  "name": "Best Google SEO Helper",
+  "description": "Strong Klout and Good RT.",
+  "version": "1.0",
+  "browser_action": {
+    "default_icon": "icon-small.png",
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "scripts": [ "background.js"],
+    "persistent": true
+  }, 
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["content.js"]
+    }
+  ]
+}
