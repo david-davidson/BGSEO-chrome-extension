@@ -16,6 +16,5 @@
     "disallowKeywords": [ "with" ],
     "disallowMultipleLineBreaks": true,
     "disallowKeywordsOnNewLine": [ "else" ],
-    "disallowSpaceAfterObjectKeys": true,
-    "validateLineBreaks": "LF"
+    "disallowSpaceAfterObjectKeys": true
 }
