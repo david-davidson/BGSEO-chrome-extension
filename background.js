@@ -5,6 +5,17 @@ var defaultResponse = "Please reopen once page has loaded",
     "BUTTON": 0
   };
 
+document.getElementById("showMoar").onclick = function(e) {
+  e.preventDefault();
+  var mydiv = document.getElementById("moar");
+  if (mydiv.style.display === "block" || mydiv.style.display === "") {
+    mydiv.style.display = "none";
+  } else {
+    mydiv.style.display = "block";
+  }
+};
+
+
 chrome.tabs.query({
   active: true,
   currentWindow: true
