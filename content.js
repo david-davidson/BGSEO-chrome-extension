@@ -1,21 +1,30 @@
 (function() {
 
-  var numLinks = 0,
-    recurse = function(element) {
-      if (element.nodeName === "A") {
-        numLinks++;
-      } else if (element.childNodes.length > 0) { // If a parent node
-        for (var i = 0; i < element.childNodes.length; i++) {
-          recurse(element.childNodes[ i ]);
-        }
-      }
-    };
+  /**
+   * Counts the number of appearances of elements within the DOM
+   *
+   * @param {Object} selectors  A hash of the elements (and their counts) we care about
+   * @param {Object} element    The current DOM node
+   */
 
-  recurse(document.documentElement); // Init
+  var countInstancesOf = function(selectors, element) {
+    var nodeName = element.nodeName;
 
-  chrome.runtime.onMessage.addListener(function(message, sender, response) {
-    if (message.title === "linkCount") {
-      response(numLinks);
+    if (selectors.hasOwnProperty(nodeName)) {
+      selectors[ nodeName ]++;
+    }
+
+    for (var i = 0; i < element.childNodes.length; i++) {
+      countInstancesOf(selectors, element.childNodes[ i ]);
+    }
+
+    return selectors;
+  };
+
+  chrome.runtime.onMessage.addListener(function(message, sender, callback) {
+    if (message.from === "BGSEO" && message.type === "count") {
+      var occurences = countInstancesOf(message.nodes, document.documentElement);
+      callback(occurences);
     }
   });
 
