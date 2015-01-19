@@ -7,6 +7,11 @@
     "default_icon": "icon-small.png",
     "default_popup": "popup.html"
   },
+  "icons": {
+    "16": "logo16x16.png",
+    "48": "logo48x48.png",
+    "128": "logo128x128.png"
+  },
   "background": {
     "scripts": [ "background.js"],
     "persistent": true
