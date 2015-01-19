@@ -1,12 +1,13 @@
 var defaultResponse = "0",
-  nodesToCount = {
+  nodes = {
     "A": 0,
     "H1": 0,
     "STRONG": 0,
     "B": 0,
     "EM": 0,
     "I": 0,
-    "LI": 0
+    "LI": 0,
+    "IMG": 0
   },
   goal = 10;
 
@@ -27,18 +28,19 @@ chrome.tabs.query({
   chrome.tabs.sendMessage(tabs[ 0 ].id, {
     from: "BGSEO",
     type: "count",
-    nodes: nodesToCount
+    nodes: nodes
   }, function(counts) {
 
     /**
-     *****************************
-     * Begin PROPRIETARY ALGORITHM
-     *****************************
+     *******************************
+     * Begin PROPRIETARY ALGORITHM *
+     *******************************
      */
 
     var bold = counts.STRONG + counts.B,
       italics = counts.EM + counts.I,
       links = counts.A,
+      images = counts.IMG,
       listItems = counts.LI,
       h1s = counts.H1,
       _calculateScore,
@@ -75,6 +77,10 @@ chrome.tabs.query({
       {
         goal: goal,
         value: listItems
+      },
+      {
+        goal: goal,
+        value: images
       }
     ]);
 
@@ -100,6 +106,7 @@ chrome.tabs.query({
     // Set element counts
     document.getElementById("linkCount").innerText = (links || defaultResponse) + "/" + goal;
     document.getElementById("liCount").innerText = (listItems || defaultResponse) + "/" + goal;
+    document.getElementById("imgCount").innerText = (images || defaultResponse) + "/" + goal;
     document.getElementById("boldCount").innerText = (bold || defaultResponse) + "/" + goal;
     document.getElementById("italicsCount").innerText = (italics || defaultResponse) + "/" + goal;
     document.getElementById("h1Count").innerText = (h1s || defaultResponse) + "/" + goal;
