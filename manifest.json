@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Best Google SEO Helper",
   "description": "Strong Klout and Good RT.",
-  "version": "1.0",
+  "version": "1.1",
   "browser_action": {
     "default_icon": "icon-small.png",
     "default_popup": "popup.html"
