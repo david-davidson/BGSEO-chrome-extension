@@ -1,4 +1,5 @@
 (function() {
+  "use strict";
 
   /**
    * Counts the number of appearances of elements within the DOM
